@@ -1,59 +1,60 @@
-const Service = require('../models/services');
+const Service = require('../models/service');
 
 exports.createService = async (req, res) => {
   try {
-    const service = new Service(req.body);
-    await service.save();
-    res.status(201).send(service);
+    const newService = await Service.create(req.body);
+    res.status(201).json({ service: newService });
   } catch (error) {
-    res.status(400).send(error);
+    res.status(400).json({ error });
   }
 };
 
-exports.getServices = async (req, res) => {
+exports.getAllServices = async (req, res) => {
   try {
-    const services = await Service.find();
-    res.status(200).send(services);
+    const services = await Service.findAll();
+    res.status(200).json({ services });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json({ error });
   }
 };
 
-exports.getServiceById = async (req, res) => {
+exports.getService = async (req, res) => {
   try {
-    const service = await Service.findById(req.params.id);
-    if (!service) {
-      return res.status(404).send({ message: 'Service not found' });
+    const service = await Service.findByPk(req.params.id);
+    if (service) {
+      res.status(200).json({ service });
+    } else {
+      res.status(404).json({ error: 'Service not found' });
     }
-    res.status(200).send(service);
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json({ error });
   }
 };
 
 exports.updateService = async (req, res) => {
   try {
-    const service = await Service.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
-    if (!service) {
-      return res.status(404).send({ message: 'Service not found' });
+    const service = await Service.findByPk(req.params.id);
+    if (service) {
+      await service.update(req.body);
+      res.status(200).json({ service });
+    } else {
+      res.status(404).json({ error: 'Service not found' });
     }
-    res.status(200).send(service);
   } catch (error) {
-    res.status(400).send(error);
+    res.status(400).json({ error });
   }
 };
 
 exports.deleteService = async (req, res) => {
   try {
-    const service = await Service.findByIdAndRemove(req.params.id);
-    if (!service) {
-      return res.status(404).send({ message: 'Service not found' });
+    const service = await Service.findByPk(req.params.id);
+    if (service) {
+      await service.destroy();
+      res.status(204).json({ message: 'Service deleted' });
+    } else {
+      res.status(404).json({ error: 'Service not found' });
     }
-    res.status(200).send({ message: 'Service deleted' });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json({ error });
   }
 };

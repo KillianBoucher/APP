@@ -1,74 +1,62 @@
-# Projet Pourboire (Tips Project)
+# Projet Pourboires
 
-Ce projet permet de gérer les pourboires et les services dans un restaurant. Il offre un CRUD pour les pourboires, les services et les utilisateurs, ainsi qu'une authentification JWT pour les administrateurs.
+Ce projet permet de gérer les pourboires des employés d'un restaurant.
 
 ## Prérequis
 
-- Node.js
-- MongoDB
+- Node.js v12.x ou supérieur
+- npm v6.x ou supérieur
 
 ## Installation
 
-1. Clonez le dépôt Git :
+Clonez le dépôt et installez les dépendances :
 
-    git clone https://github.com/votre-nom-utilisateur/votre-projet.git
-
-
-2. Accédez au répertoire du projet :
-
-    cd votre-projet
-
-3. Installez les dépendances :
-
-    npm install
+git clone https://github.com/KillianBoucher/projet-pourboires.git
+cd projet-pourboires
+npm install
 
 
-4. Créez un fichier `.env` à la racine du projet avec les informations d'identification de votre base de données MongoDB et le secret JWT.
+Créez un fichier `.env` à la racine du projet et configurez-le en suivant l'exemple ci-dessous :
 
- Consultez le fichier `.env.example` pour voir la structure requise.
+DB_HOST=localhost
+DB_USER=username
+DB_PASSWORD=password
+DB_NAME=database_name
+PORT=3000
+JWT_SECRET=your_jwt_secret
 
-5. Démarrez le serveur de développement :
+
+## Utilisation
+
+Pour lancer le serveur en mode développement :
 
 npm run dev
 
 
-Votre serveur devrait être opérationnel et écouter sur le port spécifié dans le fichier `.env`.
+Pour lancer le serveur en mode production :
 
-## API Endpoints
+npm start
 
-### Pourboires (Tips)
 
-- `GET /api/tips` : Récupère la liste des pourboires.
-- `POST /api/tips` : Crée un nouveau pourboire.
-- `GET /api/tips/:id` : Récupère un pourboire spécifique.
-- `PUT /api/tips/:id` : Met à jour un pourboire spécifique.
-- `DELETE /api/tips/:id` : Supprime un pourboire spécifique.
+## API
 
-### Services
+L'API permet de gérer les pourboires, les services et les utilisateurs.
 
-- `GET /api/services` : Récupère la liste des services.
-- `POST /api/services` : Crée un nouveau service.
-- `GET /api/services/:id` : Récupère un service spécifique.
-- `PUT /api/services/:id` : Met à jour un service spécifique.
-- `DELETE /api/services/:id` : Supprime un service spécifique.
+### Endpoints
 
-### Utilisateurs (Users)
+- CRUD pour les pourboires : `/api/tips`
+- CRUD pour les services : `/api/services`
+- CRUD pour les utilisateurs (sans perte de données) : `/api/users`
+- Authentification JWT pour les administrateurs : `/api/auth`
 
-- `GET /api/users` : Récupère la liste des utilisateurs.
-- `POST /api/users` : Crée un nouvel utilisateur.
-- `GET /api/users/:id` : Récupère un utilisateur spécifique.
-- `PUT /api/users/:id` : Met à jour un utilisateur spécifique.
-- `DELETE /api/users/:id` : Supprime un utilisateur spécifique (sans perte de données).
+## Tests
 
-### Authentification Admin
-
-- `POST /api/auth` : Authentifie un administrateur et génère un token JWT.
-
-## Contribution
-
-Pour contribuer à ce projet, veuillez soumettre une pull request avec vos modifications. Assurez-vous de respecter les conventions de code et les exigences du projet.
+Des scénarios et des routes Postman sont disponibles pour tester les différentes fonctionnalités de l'API.
 
 ## Licence
 
-Ce projet est distribué sous une licence open source. Consultez le fichier `LICENSE` pour plus d'informations.
+Ce projet est sous licence MIT. Consultez le fichier `LICENSE` pour plus d'informations.
+
+
+
 

@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const tipsController = require('../controllers/tipsController');
-const auth = require('../middleware/auth');
-router.post('/', auth, userController.create);
+const { authenticate, isAdmin } = require('../middleware/auth');
 
-router.post('/', tipsController.create);
-router.get('/', tipsController.getAll);
-router.get('/:id', tipsController.getById);
-router.put('/:id', tipsController.update);
-router.delete('/:id', tipsController.delete);
+router.post('/', authenticate, isAdmin, tipsController.createTip);
+router.get('/', authenticate, tipsController.getAllTips);
+router.get('/:id', authenticate, tipsController.getTip);
+router.put('/:id', authenticate, isAdmin, tipsController.updateTip);
+router.delete('/:id', authenticate, isAdmin, tipsController.deleteTip);
+router.get('/service/:serviceId/user/:userId', authenticate, tipsController.getTipsByServiceAndUser);
 
 module.exports = router;

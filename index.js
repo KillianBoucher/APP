@@ -1,32 +1,30 @@
 const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-require('dotenv').config();
-
-// Importez les fichiers de route
-const userRoutes = require('./routes/users');
-const tipsRoutes = require('./routes/tips');
-const serviceRoutes = require('./routes/services');
-const adminRoutes = require('./routes/admin');
-
 const app = express();
+const dotenv = require('dotenv');
+const mongoose = require('mongoose');
 
-// Connexion à la base de données
+// Import routes
+const tipsRoute = require('./routes/tips');
+const servicesRoute = require('./routes/services');
+const usersRoute = require('./routes/users');
+const authRoute = require('./routes/auth');
+
+dotenv.config();
+
+// Connect to DB
 mongoose.connect(
-  process.env.DB_CONNECTION,
-  { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false },
-  () => console.log('Connecté à la base de données')
+  process.env.DB_CONNECT,
+  { useNewUrlParser: true, useUnifiedTopology: true },
+  () => console.log('Connected to DB')
 );
 
 // Middleware
-app.use(bodyParser.json());
+app.use(express.json());
 
-// Utilisez les fichiers de route
-app.use('/api/users', userRoutes);
-app.use('/api/tips', tipsRoutes);
-app.use('/api/services', serviceRoutes);
-app.use('/api/admin', adminRoutes);
+// Route middlewares
+app.use('/api/tips', tipsRoute);
+app.use('/api/services', servicesRoute);
+app.use('/api/users', usersRoute);
+app.use('/api/auth', authRoute);
 
-// Démarrer le serveur
-const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Serveur en écoute sur le port ${port}`));
+app.listen(3000, () => console.log('Server is running on port 3000'));

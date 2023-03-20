@@ -15,3 +15,9 @@ module.exports = (req, res, next) => {
     res.status(400).json({ message: 'Token invalide' });
   }
 };
+exports.isAdmin = (req, res, next) => {
+  if (req.user.role !== 'admin') {
+    return res.status(403).json({ message: 'Forbidden: You do not have the required permissions' });
+  }
+  next();
+};

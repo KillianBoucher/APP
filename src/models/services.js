@@ -1,30 +1,24 @@
-const mongoose = require('mongoose');
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
 
-const serviceSchema = new mongoose.Schema(
-  {
-    created_at: {
-      type: Date,
-      default: Date.now,
-    },
-    modified_at: {
-      type: Date,
-      default: Date.now,
-    },
-    shiftType: {
-      type: Number,
-      enum: [0, 1, 2], // 0=breakfast, 1=lunch, 2=diner
-      required: true,
-    },
-    shiftClosed: {
-      type: Boolean,
-      default: false,
-    },
+const Service = sequelize.define('Service', {
+  shiftType: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    validate: {
+      isIn: [[0, 1, 2]]
+    }
   },
-  {
-    timestamps: { createdAt: 'created_at', updatedAt: 'modified_at' },
-  }
-);
-
-const Service = mongoose.model('Service', serviceSchema);
+  shiftClosed: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
+  },
+}, {
+  timestamps: true,
+  createdAt: 'created_at',
+  updatedAt: 'modified_at',
+});
 
 module.exports = Service;
+ 

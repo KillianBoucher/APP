@@ -1,4 +1,18 @@
 const User = require('../models/user');
+const { isAdmin } = require('../middleware/auth');
+
+exports.createTip = async (req, res) => {
+  if (!isAdmin(req, res)) {
+    try {
+      const newTip = await Tip.create(req.body);
+      res.status(201).json({ tip: newTip });
+    } catch (error) {
+      res.status(400).json({ error });
+    }
+  } else {
+    res.status(403).json({ message: 'Forbidden: You do not have the required permissions' });
+  }
+};
 
 exports.create = async (req, res) => {
   const user = new User({
